@@ -1,0 +1,9 @@
+要求：
+编写一个图形界面的应用程序，利用豆瓣查询API。查询书籍。
+1. 访问豆瓣API
+2. JSON
+3. HTTP
+4. WxPython
+5. Push on GitHub
+
+
