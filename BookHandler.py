@@ -1,95 +1,61 @@
-#A book handler 
+import urllib
 import urllib2
 import json
 
-class Book:
+class BookHandler:
     '''
-    Data structure of a book
-    '''
-    def __init__(self, jsonStr):   
-        '''
-        Book Constructor. Build a book data structure with json.
-
-        json -- book info in json format
-        '''
-        self.jData = json.loads(jsonStr)
-
-    def getRating(self):
-        '''
-        Get rating, return dictionary
-        {"max": 10, "numRaters":270, "average":"9.0", "min":0}
-        '''
-        return self.jData['rating']
-
-    def getSubtitle(self):
-        '''Get subtitle'''
-        return self.jData['subtitle']
-
-
-    def getPubdate(self):
-        '''Get publish date'''
-        return self.jData['pubdate']
-
-    def getImageUrl(self):
-        '''Get image url'''
-        return self.jData['image']
-
-    def getBinding(self):
-        '''Get binding'''
-        return self.jData['binding']
-
-    def getTitle(self):
-        '''get title'''
-        return self.jData['title']
-
-#    def get
-
-
-
-
-
-
-
-class BookHandler:              #TODO: Create response codes, catch exceptions
-    '''
-    A book handler to get book
+    Get book data
     '''
     def __init__(self):
-        self.responses = {          #Response code table
-                404: ('Book_not_found')
-                }
-
-
-
-    def getBookById(self, bookId):
+        #TODO Initialize the handler
+        #f = open('books.json', 'r')
+        self.url = 'https://api.douban.com/v2/book/search'
+        self.key = {}
+        
+    def search(self, keyword):
+        #Search info by keyword
+        
+        result = []
         '''
-        Get book by its id on douban
-        bookId -- book id
+        self.key['q'] = keyword
+        data = urllib.urlencode(self.key)
+        req =  urllib2.Request(self.url, data)
+        response = urllib2.urlopen(req)
+        page = response.read()
         '''
-        f = file("book.json","r")
-        json = f.read()
-        book = Book(json)
-        return book
+        page = open('books.json', 'r').read()
+        jData = json.loads(page)
+        for book in jData['books']:
+            result.append(Book(book))
+        return result
+
+class Book:
+    '''
+    Book data structure
+    '''
+    def __init__(self, jData):
+        #TODO Initialize book data with a json file
+        self.jData = jData
+    def getSubtitle(self):
+        return self.jData['subtitle']
+    def getTitle(self):
+        return self.jData['title']
+    def getPubdate(self):
+        return self.jData['pubdate']
+    def getImage(self):
+        return self.jData['image']
+    def getRating(self):
+        return self.jData['rating']['average']
+    def getPages(self):
+        return self.jData['pages']
+    def getPublisher(self):
+        return self.jData['publisher']
+    def getISBN10(self):
+        return self.jData['isbn10']
+    def getAuthor(self):
+        return self.jData['author']
+    def getSummary(self):
+        return self.jData['summary']
         
 
-
-
-        
-
-
-    def getBookByISBN(self, isbn):
-        '''
-        get book by its isbn
-        isbn -- ISBN
-        '''
-        pass
-
-    def searchBookByName(self, name):
-        '''
-        Search book by name
-        name -- book name or key words to search
-        '''
-        pass
-
-    
 
